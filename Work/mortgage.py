@@ -24,11 +24,11 @@ while True:
     if months >= extra_payment_start_month and months <= extra_payment_end_month:
         principal = principal - extra_payment
         total_paid = total_paid + extra_payment
-    print(months, round(total_paid,2), round(principal, 2))
+    print(f'{months: <4} {round(total_paid,2): <10} {round(principal, 2): <10}')
 
 if principal_temp < 0:
-    print(months + 1, round(principal,2), 0.00)
-    print('Total paid', round(total_paid + principal,2), 'in', months + 1, 'months')
+    print(f'{months + 1: <4} {round(total_paid + principal,2): <10} {0.00}')
+    print(f'Total paid {round(total_paid + principal,2)} in {months+1} months')
 
 else:
-    print('Total paid', round(total_paid,2), 'in', months, 'months')
+    print(f'Total paid {round(total_paid,2)} in {months} months')
