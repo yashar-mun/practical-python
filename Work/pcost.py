@@ -1,5 +1,6 @@
 # pcost.py
 
+import sys
 import csv
 
 def portfolio_cost(filename):
@@ -14,6 +15,10 @@ def portfolio_cost(filename):
                 print('Error in:', row)
         return total_cost
 
-cost = portfolio_cost('Data/portfolio.csv')
-print('Total cost:', cost)
+if len(sys.argv) == 2:
+    filename = sys.argv[1]
+else:
+    filename = 'Data/portfolio.csv'
 
+cost = portfolio_cost(filename)
+print('Total cost:', cost)
