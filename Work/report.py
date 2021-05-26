@@ -16,9 +16,8 @@ def read_portfolio(filename):
 
     return portfolio
 
-def read_prices(filename):
 
-    import csv
+def read_prices(filename):
 
     rows = csv.reader(open(filename, 'r'))
 
@@ -34,22 +33,22 @@ def read_prices(filename):
     return prices
 
 
+def make_report(portfolio, prices):
+
+    report_rows = []
+
+    for item in portfolio:
+        report_rows.append((item['name'],item['shares'],prices[item['name']],
+        prices[item['name']]-item['price']))
+
+    return report_rows
+
+
 portfolio = read_portfolio('Data/portfolio.csv')
-prices    = read_prices('Data/prices.csv')
+prices    = read_prices('Data/prices.csv')    
 
-list_of_costs = []
-for item in portfolio:
-    list_of_costs.append(round(item['shares']*item['price'],2))
+report = make_report(portfolio, prices)
 
-total_cost = round(sum(list_of_costs),2)
-print('Total coat:', total_cost)
-
-list_of_values = []
-for item in portfolio:
-    list_of_values.append(item['shares']*prices[item['name']])
-
-total_value = round(sum(list_of_values),2)
-print('Total value:', total_value)
-
-print('Gain:', round(total_value - total_cost,2))
+for r in report:
+    print(r)
 
