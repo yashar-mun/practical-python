@@ -8,11 +8,11 @@ def portfolio_cost(filename):
     with open(filename) as file: 
         rows = csv.reader(file)  
         next(file, None) 
-        for row in rows:
+        for rowno, row in enumerate(rows, start=1):
             try:             
                 total_cost = total_cost + int(row[1]) * float(row[2])
             except ValueError:
-                print('Error in:', row)
+                print(f'Row {rowno}: Bad row: {row}')
         return total_cost
 
 if len(sys.argv) == 2:
