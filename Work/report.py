@@ -44,7 +44,7 @@ def make_report(portfolio, prices):
     return report_rows
 
 
-def print_report(reportdata):
+def print_report(report):
     report.insert(0, ('Name', 'Shares', 'Price', 'Change'))
     dash = '-' * 40
     for i in range(len(report)):
@@ -55,7 +55,11 @@ def print_report(reportdata):
             print('{:>10s}{:>10d}{:>10.2f}{:>10.2f}'.format(report[i][0],report[i][1],report[i][2],report[i][3]))
 
 
-portfolio = read_portfolio('Data/portfolio.csv')
-prices    = read_prices('Data/prices.csv')    
-report = make_report(portfolio, prices)
-print_report(report)
+def portfolio_report(portfolio_filename, prices_filename):
+
+    portfolio = read_portfolio(portfolio_filename)
+    prices    = read_prices(prices_filename)    
+    report = make_report(portfolio, prices)
+    print_report(report)
+
+portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
