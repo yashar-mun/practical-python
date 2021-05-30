@@ -44,17 +44,18 @@ def make_report(portfolio, prices):
     return report_rows
 
 
+def print_report(reportdata):
+    report.insert(0, ('Name', 'Shares', 'Price', 'Change'))
+    dash = '-' * 40
+    for i in range(len(report)):
+        if i == 0:
+            print('{:>10s}{:>10s}{:>10s}{:>10s}'.format(report[i][0],report[i][1],report[i][2],report[i][3]))
+            print(dash)
+        else:
+            print('{:>10s}{:>10d}{:>10.2f}{:>10.2f}'.format(report[i][0],report[i][1],report[i][2],report[i][3]))
+
+
 portfolio = read_portfolio('Data/portfolio.csv')
 prices    = read_prices('Data/prices.csv')    
-
 report = make_report(portfolio, prices)
-
-
-report.insert(0, ('Name', 'Shares', 'Price', 'Change'))
-dash = '-' * 40
-for i in range(len(report)):
-    if i == 0:
-      print('{:>10s}{:>10s}{:>10s}{:>10s}'.format(report[i][0],report[i][1],report[i][2],report[i][3]))
-      print(dash)
-    else:
-      print('{:>10s}{:>10d}{:>10.2f}{:>10.2f}'.format(report[i][0],report[i][1],report[i][2],report[i][3]))
+print_report(report)
