@@ -2,7 +2,7 @@
 
 import csv
 
-def parse_csv(filename, select=None, types=None, delimiter=',', has_headers=True):
+def parse_csv(filename, select=None, types=None, delimiter=',', has_headers=True, silence_errors=True):
 
     if select and not has_headers:
         raise RuntimeError('select requires column headers')
@@ -20,7 +20,7 @@ def parse_csv(filename, select=None, types=None, delimiter=',', has_headers=True
             indices = []
 
         records = []
-        for row in rows:
+        for rowno, row in enumerate(rows, 1):
             if not row:    
                 continue
             
@@ -28,7 +28,13 @@ def parse_csv(filename, select=None, types=None, delimiter=',', has_headers=True
                 row = [ row[index] for index in indices ]
 
             if types:
-                row = [func(val) for func, val in zip(types, row)]
+                try:
+                    row = [func(val) for func, val in zip(types, row)]
+                except ValueError as e:
+                    if not silence_errors:
+                        print(f"Row {rowno}: Couldn't convert {row}")
+                        print(f"Row {rowno}: Reason {e}")
+                    continue
 
             record = dict(zip(headers, row))
             records.append(record)
