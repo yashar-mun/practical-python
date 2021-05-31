@@ -2,7 +2,7 @@
 
 import csv
 
-def parse_csv(filename, select=None):
+def parse_csv(filename, select=None, types=None):
     '''
     Parse a CSV file into a list of records
     '''
@@ -26,10 +26,10 @@ def parse_csv(filename, select=None):
             if indices:
                 row = [ row[index] for index in indices ]
 
+            if types:
+                row = [func(val) for func, val in zip(types, row)]
+
             record = dict(zip(headers, row))
             records.append(record)
 
     return records
-
-portfolio = parse_csv('Data/portfolio.csv', select=['name','shares'])
-print(portfolio)
