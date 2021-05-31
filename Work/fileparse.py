@@ -2,7 +2,10 @@
 
 import csv
 
-def parse_csv(filename, select=None, types=None, delimiter=','):
+def parse_csv(filename, select=None, types=None, delimiter=',', has_headers=True):
+
+    if select and not has_headers:
+        raise RuntimeError('select requires column headers')
 
     with open(filename) as f:
         
