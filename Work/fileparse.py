@@ -1,31 +1,28 @@
 # fileparse.py
-
 import csv
 
-def parse_csv(filename, select=None, types=None, delimiter=',', has_headers=True, silence_errors=True):
-
+def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
+ 
     if select and not has_headers:
         raise RuntimeError('select requires column headers')
 
     with open(filename) as f:
-        
         rows = csv.reader(f, delimiter=delimiter)
-        
-        headers = next(rows)
+
+        headers = next(rows) if has_headers else []
 
         if select:
-            indices = [headers.index(colname) for colname in select]
+            indices = [ headers.index(colname) for colname in select ]
             headers = select
-        else:
-            indices = []
 
         records = []
         for rowno, row in enumerate(rows, 1):
             if not row:    
                 continue
-            
-            if indices:
-                row = [ row[index] for index in indices ]
+
+
+            if select:
+                row = [ row[index] for index in indices]
 
             if types:
                 try:
@@ -36,7 +33,10 @@ def parse_csv(filename, select=None, types=None, delimiter=',', has_headers=True
                         print(f"Row {rowno}: Reason {e}")
                     continue
 
-            record = dict(zip(headers, row))
+            if headers:
+                record = dict(zip(headers, row))
+            else:
+                record = tuple(row)
             records.append(record)
 
-    return records
+        return records
